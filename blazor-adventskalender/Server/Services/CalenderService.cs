@@ -10,7 +10,7 @@ namespace blazor_adventskalender.Server.Services
         /// </summary>
         /// <param name="oneDoor"></param>
         /// <returns>true if the day is already reached</returns>
-        internal bool CheckIfUnlocked(OneDoor oneDoor)
+        internal bool CheckIfUnlocked(OneDoorModel oneDoor)
         {
             return oneDoor.Date > DateTime.Now;
         }

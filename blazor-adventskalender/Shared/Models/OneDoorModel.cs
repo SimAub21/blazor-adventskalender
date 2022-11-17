@@ -2,7 +2,7 @@
 
 namespace blazor_adventskalender.Shared.Models
 {
-    public class OneDoor
+    public class OneDoorModel
     {
         public int ID { get; set; }
         public DateTime Date { get; set; }

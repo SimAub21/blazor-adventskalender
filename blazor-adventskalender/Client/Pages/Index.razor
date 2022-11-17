@@ -1,15 +1,17 @@
 ﻿@page "/"
 @using blazor_adventskalender.Client.Components
+@using blazor_adventskalender.Shared.Models
 
 <html>
     <head>
         <link rel="stylesheet" href="~/css/Index.css" />
     </head>
     <body>
-        <OneDoor></OneDoor>
+        <OneDoor Door="oneDoor"></OneDoor>
     </body>
 </html>
 
 @code {
+    public OneDoorModel oneDoor = new();
 
 }

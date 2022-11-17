@@ -1,4 +1,4 @@
-﻿@page "/OneDoor"
+﻿@using blazor_adventskalender.Shared.Models
 
 <html>
     <head>
@@ -6,7 +6,7 @@
     </head>
     <body>
     <div class="card-container">
-            <h1>1</h1>
+            <h1>@Door.ID</h1>
     </div>
 
 
@@ -35,5 +35,6 @@
 </html>
 
 @code {
-
+    [Parameter]
+    public OneDoorModel Door { get; set;  }
 }
