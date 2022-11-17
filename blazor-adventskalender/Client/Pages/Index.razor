@@ -1,17 +1,79 @@
 ﻿@page "/"
+@using Newtonsoft.Json
+@using System.IO
 @using blazor_adventskalender.Client.Components
 @using blazor_adventskalender.Shared.Models
+
+@using KristofferStrube.Blazor.FileSystemAccess
+
 
 <html>
     <head>
         <link rel="stylesheet" href="~/css/Index.css" />
     </head>
+    @DateTime.Now
     <body>
-        <OneDoor Door="oneDoor"></OneDoor>
+        @foreach (var item in doorList)
+    {
+        <OneDoor Door="@item"></OneDoor>
+    }
+        
     </body>
 </html>
 
 @code {
     public OneDoorModel oneDoor = new();
+
+    List<OneDoorModel> doorList = new List<OneDoorModel>();
+    private string Text = "";
+
+    public Index()
+    {
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        string s;
+        using (StreamReader sr = new StreamReader(@"C:\Users\kaisers\Desktop\days.json"))
+        {
+            s = sr.ReadToEnd();
+        }
+
+        oneDoor = JsonConvert.DeserializeObject<OneDoorModel>(s);
+        doorList.Add(oneDoor);
+
+
+    }
+
+
+    private async Task OpenAndReadFile()
+    {
+        FileSystemFileHandle? fileHandle = null;
+        try
+        {
+            OpenFilePickerOptionsStartInWellKnownDirectory options = new()
+                {
+                    Multiple = false,
+                    StartIn = WellKnownDirectory.Downloads
+                };
+            var fileHandles = await FileSystemAccessService.ShowOpenFilePickerAsync(options);
+            fileHandle = fileHandles.Single();
+        }
+        catch (JSException ex)
+        {
+            // Handle Exception or cancelation of File Access prompt
+            Console.WriteLine(ex);
+        }
+        finally
+        {
+            if (fileHandle is not null)
+            {
+                var file = await fileHandle.GetFileAsync();
+                Text = await file.TextAsync();
+                StateHasChanged();
+            }
+        }
+    }
+
 
 }
